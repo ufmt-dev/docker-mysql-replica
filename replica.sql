@@ -1,0 +1,7 @@
+CHANGE MASTER TO
+  MASTER_HOST='principal',
+  MASTER_USER='replicador',
+  MASTER_PASSWORD='replicador',
+  MASTER_LOG_FILE='meulog.000003',
+  MASTER_LOG_POS=157;
+START SLAVE;

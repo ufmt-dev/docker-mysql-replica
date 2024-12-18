@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  banco-principal:
+    container_name: "principal"
+    image: bancofaeng
+    command: "--server-id=1 --log-bin=meulog --binlog-format=row"
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=replicador
+      - MYSQL_PASSWORD=replicador
+    ports:
+      - "3300:3306"
+    volumes:
+      - ./principal.sql:/docker-entrypoint-initdb.d/init_principal.sql
+  banco-replica:
+    container_name: "replica"
+    image: bancofaeng
+    restart: always
+    command: "--server-id=2 --log-bin=meulog --binlog-format=row"
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./replica.sql:/docker-entrypoint-initdb.d/init_replica.sql
